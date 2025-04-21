@@ -1,26 +1,35 @@
-from stats import get_word_count
-from stats import sort_list
 import sys
+from stats import get_word_count 
+from stats import sort_char_count
+
 
 if len(sys.argv) < 2:
-    print("'Usage: python3 main.py <path_to_book>'")
+    print("Usage: python3 main.py <filepath>")
     sys.exit(1)
 
+
 filepath = sys.argv[1]
+book_contents = ""
+
+
+with open(filepath, "r") as f:
+    book_contents = f.read()
+
+
+sorted_char_count = sort_char_count(book_contents)
+
 
 def main():
-    word_count = get_word_count(filepath)
-    sorted_list = sort_list(filepath)
-    print("============ BOOKBOT ============")
-    print(f"Analyzing book found at {filepath}...")
-    print("----------- Word Count ----------")   
-    print(f"Found {word_count} total words") 
-    print("--------- Character Count -------")
-    for char in sorted_list:
-        character = char["char"]
-        count = char["count"]
-        if character.isalpha():
-            print(f"{character}: {count}")
-    print("============= END ===============")
-        
+    print("===============BOOKBOT===============")
+    print("")
+    print("==========GENERATING REPORT==========")
+    print(f"{get_word_count(book_contents)} WORDS IN BOOK")
+    print("-------------------------------------")
+    for dict in sorted_char_count:
+        char = dict["char"]
+        num = dict["count"]
+        print(f"{char}: {num}")
+    print("=====================================")
+
+
 main()
